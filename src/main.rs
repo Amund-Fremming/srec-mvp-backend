@@ -2,6 +2,8 @@ use backend::adapters::llm::models::SeriesRecommendations;
 use backend::api::handlers;
 use backend::models::{ReviewDto, ReviewRequest, Series};
 use backend::state::AppState;
+use http::HeaderValue;
+use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
@@ -41,7 +43,18 @@ async fn main() {
         .await
         .expect("failed to initialise app state");
 
+    let cors = CorsLayer::new()
+        .allow_origin([
+            "http://localhost:5173".parse::<HeaderValue>().unwrap(),
+            "https://srec-mvp-frontend-production.up.railway.app"
+                .parse::<HeaderValue>()
+                .unwrap(),
+        ])
+        .allow_methods(tower_http::cors::Any)
+        .allow_headers(tower_http::cors::Any);
+
     let app = handlers::router()
+        .layer(cors)
         .layer(TraceLayer::new_for_http())
         .with_state(state)
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()));
