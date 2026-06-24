@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM recommendations WHERE tmdb_series_id = $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int8"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "b49f9c9948809397bc01e69b2f7e3faee7fe2c7ff472ddb44f2d22f6fc3c75be"
+}

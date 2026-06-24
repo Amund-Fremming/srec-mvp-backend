@@ -1,0 +1,73 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE reviews\n            SET rating = $2, liked = $3, disliked = $4\n            WHERE id = $1\n            RETURNING id, series_id, user_id, tmdb_series_id, rating, liked, disliked, was_recommended as \"was_recommended!\", created_at\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "series_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "tmdb_series_id",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 4,
+        "name": "rating",
+        "type_info": "Int2"
+      },
+      {
+        "ordinal": 5,
+        "name": "liked",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "disliked",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 7,
+        "name": "was_recommended!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int2",
+        "Varchar",
+        "Varchar"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false
+    ]
+  },
+  "hash": "2207b2a24f7fbd1e3fba173021fbc1713ab5df8eb000b3643f06c64ee81a9293"
+}

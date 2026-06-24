@@ -1,0 +1,70 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT id, series_id, user_id, tmdb_series_id, rating, liked, disliked, was_recommended as \"was_recommended!\", created_at\n            FROM reviews\n            WHERE user_id = $1\n            ORDER BY created_at DESC\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "series_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "tmdb_series_id",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 4,
+        "name": "rating",
+        "type_info": "Int2"
+      },
+      {
+        "ordinal": 5,
+        "name": "liked",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "disliked",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 7,
+        "name": "was_recommended!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false
+    ]
+  },
+  "hash": "687f5d2c6a53759f81bb11da144269f81c537aa7adfce251943459d136ec1176"
+}

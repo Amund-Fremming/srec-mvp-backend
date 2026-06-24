@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO recommendations (tmdb_series_id, confidence)\n            VALUES ($1, $2)\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int8",
+        "Int2"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3c395c8fccaf3ef7b2365244058d8304b7e6edb2dfff2594a8960daf6bbd4bf8"
+}

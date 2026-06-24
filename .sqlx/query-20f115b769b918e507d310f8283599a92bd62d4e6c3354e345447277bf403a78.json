@@ -1,0 +1,76 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO reviews (series_id, user_id, tmdb_series_id, rating, liked, disliked, was_recommended)\n            VALUES ($1, $2, $3, $4, $5, $6, $7)\n            RETURNING id, series_id, user_id, tmdb_series_id, rating, liked, disliked, was_recommended as \"was_recommended!\", created_at\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "series_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "tmdb_series_id",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 4,
+        "name": "rating",
+        "type_info": "Int2"
+      },
+      {
+        "ordinal": 5,
+        "name": "liked",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "disliked",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 7,
+        "name": "was_recommended!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Int8",
+        "Int2",
+        "Varchar",
+        "Varchar",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false
+    ]
+  },
+  "hash": "20f115b769b918e507d310f8283599a92bd62d4e6c3354e345447277bf403a78"
+}
