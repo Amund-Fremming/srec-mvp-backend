@@ -95,18 +95,4 @@ async fn main() {
         Err(e) => println!("✅ Correctly rejected duplicate username: {e}"),
         Ok(_) => println!("❌ Duplicate username was accepted"),
     }
-
-    // Login with correct passcode
-    match db.login_or_create_user("bob", "pass123").await {
-        Ok(Some(id)) => println!("✅ Re-login succeeded → user id: {id}"),
-        Ok(None) => println!("❌ Re-login: wrong passcode"),
-        Err(e) => println!("❌ Re-login failed: {e}"),
-    }
-
-    // Login with wrong passcode
-    match db.login_or_create_user("bob", "wrongpass").await {
-        Ok(None) => println!("✅ Correctly rejected wrong passcode"),
-        Ok(Some(_)) => println!("❌ Wrong passcode was accepted"),
-        Err(e) => println!("❌ login_or_create_user failed: {e}"),
-    }
 }

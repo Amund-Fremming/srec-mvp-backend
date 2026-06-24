@@ -249,11 +249,7 @@ impl DbAdapter {
         Ok(id)
     }
 
-    pub async fn login_or_create_user(
-        &self,
-        username: &str,
-        passcode: &str,
-    ) -> Result<Option<Uuid>, DbError> {
+    pub async fn login(&self, username: &str, passcode: &str) -> Result<Option<Uuid>, DbError> {
         let existing = sqlx::query_as!(
             User,
             r#"SELECT id, username, passcode, created_at FROM users WHERE username = $1"#,
@@ -262,21 +258,14 @@ impl DbAdapter {
         .fetch_optional(&self.pool)
         .await?;
 
-        if let Some(user) = existing {
-            if user.passcode != passcode {
-                return Ok(None);
-            }
-            return Ok(Some(user.id));
+        let Some(user) = existing else {
+            return Err(DbError::NotFound);
+        };
+
+        if user.passcode != passcode {
+            return Ok(None);
         }
 
-        let id = sqlx::query_scalar!(
-            r#"INSERT INTO users (username, passcode) VALUES ($1, $2) RETURNING id"#,
-            username,
-            passcode,
-        )
-        .fetch_one(&self.pool)
-        .await?;
-
-        Ok(Some(id))
+        Ok(Some(user.id))
     }
 }

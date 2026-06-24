@@ -14,7 +14,10 @@ use validator::Validate;
 use crate::{
     adapters::tmdb::models::{SeriesDetails, SeriesListItem},
     errors::AppError,
-    models::{CreateUserRequest, LoginRequest, PagedQuery, ReviewDto, ReviewRequest, Series, UpdateReviewRequest},
+    models::{
+        CreateUserRequest, LoginRequest, PagedQuery, ReviewDto, ReviewRequest, Series,
+        UpdateReviewRequest,
+    },
     state::AppState,
 };
 
@@ -25,7 +28,10 @@ pub fn router() -> Router<AppState> {
         .route("/series", get(get_series_page))
         .route("/series/search", get(search_series))
         .route("/series/review", get(get_user_review).post(save_review))
-        .route("/series/review/{review_id}", delete(delete_review).patch(patch_review))
+        .route(
+            "/series/review/{review_id}",
+            delete(delete_review).patch(patch_review),
+        )
         .route("/series/reviews/{user_id}", get(get_user_reviews))
         .route("/series/{tmdb_id}", get(get_series_by_tmdb_id))
         .route(
@@ -52,7 +58,7 @@ pub async fn login(
 ) -> Result<impl IntoResponse, AppError> {
     let user_id = state
         .db
-        .login_or_create_user(&body.username, &body.passcode)
+        .login(&body.username.to_lowercase(), &body.passcode)
         .await?;
 
     Ok((StatusCode::OK, Json(user_id)))
@@ -193,7 +199,11 @@ pub async fn get_stored_recommendations(
 
     let mut stored = Vec::new();
     for rec in recs {
-        if let Ok(series) = state.tmdb.get_series_details(rec.tmdb_series_id as u64).await {
+        if let Ok(series) = state
+            .tmdb
+            .get_series_details(rec.tmdb_series_id as u64)
+            .await
+        {
             stored.push(StoredRecommendation {
                 series,
                 confidence: rec.confidence,
@@ -252,6 +262,9 @@ pub async fn create_user(
     State(state): State<AppState>,
     Json(body): Json<CreateUserRequest>,
 ) -> Result<impl IntoResponse, AppError> {
-    let id = state.db.create_user(&body.username, &body.passcode).await?;
+    let id = state
+        .db
+        .create_user(&body.username.to_lowercase(), &body.passcode)
+        .await?;
     Ok((StatusCode::CREATED, Json(id)))
 }
