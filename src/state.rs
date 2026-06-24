@@ -1,4 +1,5 @@
 use sqlx::{Pool, Postgres, postgres::PgPoolOptions};
+use tracing::debug;
 
 use crate::adapters::db::DbAdapter;
 use crate::adapters::llm::adapter::LlmAdapter;
@@ -23,6 +24,7 @@ impl AppState {
             .connect(database_url)
             .await?;
 
+        debug!(connection_string = %database_url, "Connecting to postgres database");
         sqlx::migrate!("./migrations").run(&pool).await?;
 
         let db = DbAdapter::new(pool.clone());
