@@ -1,0 +1,1 @@
+ALTER TABLE recommendations ADD COLUMN confidence SMALLINT NOT NULL DEFAULT 0;

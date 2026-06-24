@@ -1,0 +1,13 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "seriesrec",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "seriesrec",
+      "Username": "postgres",
+      "SSLMode": "prefer"
+    }
+  }
+}
